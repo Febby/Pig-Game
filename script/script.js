@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 // Selecting elements
 const player0Element = document.querySelector('.player--0');
@@ -28,34 +28,32 @@ let scores, currentScore, activePlayer, playing;
 //Init/Reset game
 
 const newGame = function () {
-    // console.log("New game initialized");
-    //total scores
-    scores = [0, 0];
-    //set player current score to 0 when game starts
-    currentScore = 0;
+  // console.log("New game initialized");
+  //total scores
+  scores = [0, 0];
+  //set player current score to 0 when game starts
+  currentScore = 0;
 
-    // start with player 1 or 0
-    activePlayer = 0;
+  // start with player 1 or 0
+  activePlayer = 0;
 
-    // game playing state
-    playing = true;
-    // Set initial score to 0 & hide the dice
+  // game playing state
+  playing = true;
+  // Set initial score to 0 & hide the dice
 
-
-    // Reset scores to 0
-    score0Element.textContent = 0;
-    score1Element.textContent = 0;
-    current0Element.textContent = 0;
-    current1Element.textContent = 0;
-    diceElement.classList.add('hidden');
-    player0Element.classList.remove('player--winner');
-    player1Element.classList.remove('player--winner');
-    player0Name.textContent = 'Player 1';
-    player1Name.textContent = 'Player 2';
-    player0Element.classList.add('player--active');
-    player1Element.classList.remove('player--active');
-
-}
+  // Reset scores to 0
+  score0Element.textContent = 0;
+  score1Element.textContent = 0;
+  current0Element.textContent = 0;
+  current1Element.textContent = 0;
+  diceElement.classList.add('hidden');
+  player0Element.classList.remove('player--winner');
+  player1Element.classList.remove('player--winner');
+  player0Name.textContent = 'Player 1';
+  player1Name.textContent = 'Player 2';
+  player0Element.classList.add('player--active');
+  player1Element.classList.remove('player--active');
+};
 
 //Initialize game
 newGame();
@@ -63,93 +61,93 @@ newGame();
 // Switch player
 
 const switchPlayer = function () {
-    // switch to next player
-    document.getElementById(`current--${activePlayer}`).textContent = currentScore
-    // set the current score to 0
-    currentScore = 0;
-    // ternary: if the active player is 0 (player 1) the change to 1 (player 2);
-    activePlayer = activePlayer === 0 ? 1 : 0;
+  // switch to next player
+  document.getElementById(`current--${activePlayer}`).textContent =
+    currentScore;
+  // set the current score to 0
+  currentScore = 0;
+  // ternary: if the active player is 0 (player 1) the change to 1 (player 2);
+  activePlayer = activePlayer === 0 ? 1 : 0;
 
-    //remove the current active class and switch it to other player
-    player0Element.classList.toggle('player--active');
-    player1Element.classList.toggle('player--active');
+  //remove the current active class and switch it to other player
+  player0Element.classList.toggle('player--active');
+  player1Element.classList.toggle('player--active');
 
-    //Add the current active class to the other player
-}
+  //Add the current active class to the other player
+};
 // Roll the dice
 
 const rollDice = function () {
-    // generate a random roll
-    const dice = Math.trunc(Math.random() * 6) + 1;
-    
+  // generate a random roll
+  const dice = Math.trunc(Math.random() * 6) + 1;
 
-    // display dice
-    diceElement.classList.remove('hidden');
-    diceElement.src = `img/dice-${dice}.png`;
+  // display dice
+  diceElement.classList.remove('hidden');
+  diceElement.src = `img/dice-${dice}.png`;
 
-
-    // check for rolled result if true, switch to next player
-    if (dice !== 1) {
-        // add dice to current score
-        currentScore += dice;
-        // determine the active player and set the current score
-        document.getElementById(`current--${activePlayer}`).textContent = currentScore;
-        // current0Element.textContent = currentScore; // need to change later
-    } else {
-        switchPlayer();
-
-    }
-}
+  // check for rolled result if true, switch to next player
+  if (dice !== 1) {
+    // add dice to current score
+    currentScore += dice;
+    // determine the active player and set the current score
+    document.getElementById(`current--${activePlayer}`).textContent =
+      currentScore;
+    // current0Element.textContent = currentScore; // need to change later
+  } else {
+    switchPlayer();
+  }
+};
 
 // Hold the current score
 
 const holdScore = function () {
+  // add current score to active player score
+  // scores[1] = scores[1] + currentScore
+  scores[activePlayer] += currentScore;
+  console.log(scores[activePlayer]);
+  document.getElementById(`score--${activePlayer}`).textContent =
+    scores[activePlayer];
 
-    // add current score to active player score
-    // scores[1] = scores[1] + currentScore
-    scores[activePlayer] += currentScore;
-    console.log(scores[activePlayer]);
-    document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer];
+  // check if the total score greater or equal than 100
 
-    // check if the total score greater or equal than 100
-
-    if (scores[activePlayer] >= 100) {
-        // finish the game
-        playing = false;
-        diceElement.classList.add('hidden');
-        document.getElementById(`name--${activePlayer}`).textContent = `Winner`;
-        document.querySelector(`.player--${activePlayer}`).classList.add('player--winner');
-        document.querySelector(`.player--${activePlayer}`).classList.remove('player--active');
-    } else {
-        // switch player
-        switchPlayer();
-    }
-
-
-}
+  if (scores[activePlayer] >= 100) {
+    // finish the game
+    playing = false;
+    diceElement.classList.add('hidden');
+    document.getElementById(`name--${activePlayer}`).textContent = `Winner`;
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.add('player--winner');
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.remove('player--active');
+  } else {
+    // switch player
+    switchPlayer();
+  }
+};
 
 //Modal functionalities
 const showModal = function () {
-    modal.classList.remove('hidden');
-    overlay.classList.remove('hidden');
-}
+  modal.classList.remove('hidden');
+  overlay.classList.remove('hidden');
+};
 
 const hideModal = function () {
-    modal.classList.add('hidden');
-    overlay.classList.add('hidden');
-}
-
+  modal.classList.add('hidden');
+  overlay.classList.add('hidden');
+};
 
 btnRoll.addEventListener('click', function () {
-    if (playing) {
-        rollDice();
-    }
+  if (playing) {
+    rollDice();
+  }
 });
 
 btnHold.addEventListener('click', function () {
-    if (playing) {
-        holdScore();
-    }
+  if (playing) {
+    holdScore();
+  }
 });
 
 btnNewGame.addEventListener('click', newGame);
@@ -161,12 +159,10 @@ btnCloseModal.addEventListener('click', hideModal);
 overlay.addEventListener('click', hideModal);
 
 document.addEventListener('keydown', function (e) {
-
-    // Check if the Escape key was pressed then proceed
-    // & check if the modal does not have the hidden class
-    // if both condition are true then invoke hideModal function
-    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-
-        hideModal();
-    }
-})
+  // Check if the Escape key was pressed then proceed
+  // & check if the modal does not have the hidden class
+  // if both condition are true then invoke hideModal function
+  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+    hideModal();
+  }
+});
